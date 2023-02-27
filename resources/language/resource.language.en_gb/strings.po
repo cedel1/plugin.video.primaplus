@@ -1,0 +1,68 @@
+# Kodi Media Center language file
+# Addon Name: Prima Plus
+# Addon id: plugin.video.iprima
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: English (http://www.transifex.com/projects/p/xbmc-addons/language/en/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#32000"
+msgid "General"
+msgstr ""
+
+msgctxt "#32001"
+msgid "iPrima Account"
+msgstr ""
+
+msgctxt "#32002"
+msgid "Items Per Page"
+msgstr ""
+
+msgctxt "#32003"
+msgid "E-mail"
+msgstr ""
+
+msgctxt "#32004"
+msgid "Password"
+msgstr ""
+
+msgctxt "#32005"
+msgid "Account settings"
+msgstr ""
+
+msgctxt "#32006"
+msgid "Remember me?"
+msgstr ""
+
+msgctxt "#32007"
+msgid "Remember selected user profile?"
+msgstr ""
+
+msgctxt "#32008"
+msgid "Debug settings"
+msgstr ""
+
+msgctxt "#32009"
+msgid "Access Token"
+msgstr ""
+
+msgctxt "#32010"
+msgid "Device ID"
+msgstr ""
+
+msgctxt "#32011"
+msgid "User ID"
+msgstr ""
+
+msgctxt "#32012"
+msgid "Profile ID"
+msgstr ""

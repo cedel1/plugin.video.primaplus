@@ -95,6 +95,31 @@ def getAccessToken(refresh=False, device=None):
 
 	return {'token': access_token, 'user_id': user_id}
 
+def selectProfileIdFromHtml(profile_select_html):
+	from . import helpers
+
+	profile_id_search = re.findall('<a.*?data-edit-url="/user/profile-edit/(.*?)".*?alt="(.*?)".*?</a>', profile_select_html, flags=re.DOTALL)
+	helpers.log(profile_id_search.__repr__(), 2)
+	profiles_select_list = [xbmcgui.ListItem(label=profile_id[1]) for profile_id in profile_id_search]
+
+	profile_select_prompt = xbmcgui.Dialog()
+	profile = profile_select_prompt.select(
+		heading='Prosím vyberte profil',
+		list=profiles_select_list,
+		preselect=1
+	)
+	helpers.log('profile_id: {} - {}'.format(profile, profiles_select_list[profile].getLabel()), 2)
+
+	if profile >= 0:
+		profile_id = profile_id_search[profile][0]
+		addon.setSetting(id='profileId', value=profile_id)
+	else:
+		helpers.displayMessage('Nepodařilo se získat ID profilu', 'ERROR')
+		sys.exit(1)
+	helpers.log('Selected profile id: {}'.format(profile_id))
+
+	return profile_id
+
 def login(email, password, device_id):
 	from . import helpers
 	s = requests.Session()
@@ -122,20 +147,22 @@ def login(email, password, device_id):
 	do_login = s.post('https://auth.iprima.cz/oauth2/login', {
 		'_email': email,
 		'_password': password,
-		'_csrf_token': csrf_token
+		'_csrf_token': csrf_token,
+		'_remember_me': xbmcplugin.getSetting(plugin.handle, 'remember_login')
 	}, cookies=cookies)
 	helpers.log('Auth check URL: ' + do_login.url)
 
 	# Optionally select profile
 	profile_id = xbmcplugin.getSetting(plugin.handle, 'profileId')
-	if not profile_id:
-		profile_id_search = re.search('data-edit-url="/user/profile-edit/(.*)"', do_login.text)
-		helpers.log('Selected profile id: {}'.format(profile_id_search[1]))
+	remember_profile = xbmcplugin.getSetting(plugin.handle, 'remember_profile')
+	if not (profile_id and remember_profile):
+		profile_id = selectProfileIdFromHtml(do_login.text)
+		helpers.log('Selected profile id: {}'.format(profile_id), 2)
 
-		if profile_id_search:
-			profile_id = profile_id_search[1]
+		if remember_profile:
 			addon.setSetting(id='profileId', value=profile_id)
-		else:
+		
+		if not profile_id:
 			helpers.displayMessage('Nepodařilo se získat ID profilu', 'ERROR')
 			sys.exit(1)
 
